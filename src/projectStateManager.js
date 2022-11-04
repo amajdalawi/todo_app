@@ -1,5 +1,4 @@
-
-
+import {v4 as v4} from 'uuid';
 
 const manager = (function() {
     let project_list = [];
@@ -22,7 +21,7 @@ const manager = (function() {
 
     function addTodo(title,project,description,priority,due_date,status) {
         let uuidNo = v4();
-        this[uuidNo] = {
+        project_tasks[uuidNo] = {
             title,
             project,
             description,
@@ -32,4 +31,11 @@ const manager = (function() {
         };
         localStorage.setItem(uuidNo,JSON.stringify(this[uuidNo]))
     }
+
+    function editTodoAttribute(uuid, attr, val) {
+        project_tasks[uuid][attr] = val;
+        localStorage.setItem(uuid, JSON.stringify(project_tasks[uuid]));
+    }
 })();
+
+export default manager;
