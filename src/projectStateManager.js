@@ -46,8 +46,11 @@ const manager = (function() {
     }
 
     function removeProjectName(somestr) {
-        // todo!
-        // project_list.splice()
+        for (let i = 0; i < project_list.length; i++) {
+            if (somestr == project_list[i]) {
+                project_list.splice(i,1)
+            }
+        }
     }
 
     return {dumpLS, resetLS, addTodo, addProjectName,removeProjectName,getProjectTasks,editTodoAttribute};
