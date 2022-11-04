@@ -36,6 +36,21 @@ const manager = (function() {
         project_tasks[uuid][attr] = val;
         localStorage.setItem(uuid, JSON.stringify(project_tasks[uuid]));
     }
+
+    function getProjectTasks() {
+        return project_tasks;
+    }
+
+    function addProjectName(somestr) {
+        project_list.push(somestr);
+    }
+
+    function removeProjectName(somestr) {
+        // todo!
+        project_list.splice()
+    }
+
+    return {dumpLS, resetLS, addTodo, addProjectName,removeProjectName,getProjectTasks,editTodoAttribute};
 })();
 
 export default manager;
