@@ -5,7 +5,7 @@ const manager = (function() {
     let project_tasks = {};
 
     function dumpLS(obj) {
-        for (let i = 0; i < localStorage.length, i++) {
+        for (let i = 0; i < localStorage.length; i++) {
             obj[localStorage.key(i)]  = JSON.parse(localStorage.getItem(localStorage.key(i)))
         }
     }
@@ -47,7 +47,7 @@ const manager = (function() {
 
     function removeProjectName(somestr) {
         // todo!
-        project_list.splice()
+        // project_list.splice()
     }
 
     return {dumpLS, resetLS, addTodo, addProjectName,removeProjectName,getProjectTasks,editTodoAttribute};
