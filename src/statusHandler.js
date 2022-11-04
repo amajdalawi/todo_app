@@ -51,8 +51,12 @@ const status = (function() {
         priority = prio;
     }
 
-    function setStatus(st) {
+    function setFinishedStatus(st) {
         // st must be a boolean
-        status = st;
+        finished_status = st;
     }
-})
+
+    return {getList, setPriority, setProjectName,setdate,setFinishedStatus}
+})();
+
+export default status;
