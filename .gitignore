@@ -5,3 +5,6 @@
 ./node_modules/**
 
 actual_todo.txt
+
+
+./src/classtest.js
