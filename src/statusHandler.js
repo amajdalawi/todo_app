@@ -24,8 +24,35 @@ const status = (function() {
         if (finished_status == true) {
             shown_array = shown_array.filter((el) => {return el[status] == true})
         }
+        let today = new Date(new Date().toJSON().slice(0,10));
         if (date == 'Today') {
-            
+            shown_array = shown_array.filter((el) => {return dfns.compareAsc(today, el[due_date] === 0)});
+        } else if (date == 'This Week') {
+            shown_array = shown_array.filter((el) => {
+                return (dfns.compareAsc(today,el[due_date]) === -1 && dfns.compareAsc(dfns.addDays(today,7),el[due_date] === 1))
+            })
+        } else if (date == 'Overdue') {
+            shown_array = shown_array.filter((el) => {return dfns.compareAsc(today, el[due_date] === 1)});
         }
+
+        return shown_array;
+    }
+
+    function setProjectName(name) {
+        project_current = name;
+    }
+
+    function setdate(d) {
+        // should be either a string or a date object, will see later
+        date = d;
+    }
+
+    function setPriority(prio) {
+        priority = prio;
+    }
+
+    function setStatus(st) {
+        // st must be a boolean
+        status = st;
     }
 })

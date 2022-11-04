@@ -26,7 +26,7 @@ const manager = (function() {
             project,
             description,
             priority,
-            'due_date': new Date(due_date),
+            due_date: new Date(due_date),
             status
         };
         localStorage.setItem(uuidNo,JSON.stringify(this[uuidNo]))
