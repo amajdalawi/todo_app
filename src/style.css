@@ -1,0 +1,29 @@
+.main-con {
+    min-height: 300px;
+    /* display: flex; */
+    font-size: 20px;
+    border: 2px black solid;
+    background-color: aliceblue;
+    width: max(50%,800px);
+}
+
+.row-con {
+    display: flex;
+    border: 1px black dotted;
+
+}
+
+.row-con > div {
+    border: 1px black solid;
+    background-color: antiquewhite;
+}
+
+.title-con, .date-con {
+    text-align: center;
+    flex: 1;
+}
+
+.desc-con {
+    flex: 3fr;
+    text-align: right;
+}
