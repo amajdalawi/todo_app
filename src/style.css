@@ -1,0 +1,107 @@
+html {
+    box-sizing: border-box;
+}
+
+.header {
+    padding: 30px 40px;
+    background-color: rgb(66, 66, 66);
+    color:aliceblue;
+    font-size: 60px;
+    margin: 0px;
+}
+
+body {
+    padding: 0px;
+    margin: 0px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.ult-con {
+    display: flex;
+    gap: 10px;
+    flex: 1;
+    background-color: rgb(66, 66, 66);
+    /* height: 100%; */
+}
+
+.main-todo {
+    flex: 3;
+    background-color: aliceblue;
+}
+
+.sidebar {
+    background-color: aliceblue;
+    flex: 0.7;
+}
+
+/* time sort buttons  */
+
+.time-sort {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding: 10px;
+}
+
+.time-sort > div {
+    text-align: center;
+    /* width: 100%; */
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px rgb(66, 66, 66) solid;
+}
+
+.time-sort > div:hover {
+    transition: 100ms;
+    cursor: pointer;
+}
+
+.done:hover {
+    color: rgb(0, 81, 255);
+    border: 3px rgb(0, 81, 255) solid;
+}
+
+.overdue:hover {
+    color: red;
+    border: 3px red solid;
+}
+
+.all:hover, .this-week:hover {
+    border: 3px rgb(83, 60, 60) solid;
+    color: rgb(83, 60, 60);
+}
+
+/* projects container styling  */
+
+
+
+.projects-header {
+    background-color: rgb(66, 66, 66);
+    color: aliceblue;
+    font-size: 26px;
+    padding: 10px 15px;
+}
+
+.projects-list {
+    padding: 10px;
+}
+
+.project-button {
+    text-align: center;
+    /* width: 100%; */
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px rgb(66, 66, 66) solid;
+
+}
+
+.project-button:hover {
+    cursor: pointer;
+    
+}

@@ -1,5 +1,5 @@
-import dfns from 'date-fns';
-import manager from './projectStateManager';
+import * as dfns from 'date-fns';
+import {manager as manager} from './projectStateManager';
 
 const status = (function() {
     let priority = '';
@@ -59,4 +59,4 @@ const status = (function() {
     return {getList, setPriority, setProjectName,setdate,setFinishedStatus}
 })();
 
-export default status;
+export {status};

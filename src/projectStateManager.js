@@ -56,4 +56,4 @@ const manager = (function() {
     return {dumpLS, resetLS, addTodo, addProjectName,removeProjectName,getProjectTasks,editTodoAttribute};
 })();
 
-export default manager;
+export {manager};
