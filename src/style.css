@@ -103,5 +103,54 @@ body {
 
 .project-button:hover {
     cursor: pointer;
-    
+
 }
+
+/* table styling */
+
+/* table header */
+
+.table-header {
+    background-color: rgb(117, 117, 117);
+    display: flex;
+    padding: 10px 0px 10px 0px;
+}
+
+.checked-placeholder, .checked-button-div {
+    flex: 0.3;
+}
+
+.title-h, .title-content {
+    flex: 1;
+}
+
+.desc-h, .desc-content {
+    flex: 3;
+}
+
+.due-date, .due-date-content {
+    flex: 1;
+    border-right: 0px;
+}
+
+.buttons-placeholder, .buttons-content {
+    flex: 0.7;
+}
+
+.table-header > div {
+    color: aliceblue;
+    font-size: 1.2rem;
+}
+
+.title-h, .desc-h, .due-date, .due-date-content, .desc-content,.title-content {
+    padding-left: 10px;
+    border-right: 1px rgb(196, 194, 194) solid;
+}
+
+/* test row of table  */
+
+.test-row {
+    display: flex;
+    padding: 10px 0px 10px 0px;
+}
+
