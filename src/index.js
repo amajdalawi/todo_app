@@ -7,7 +7,7 @@ import dom from './domManager.js'
 
 
 
-
+dom.initPage();
 
 
 

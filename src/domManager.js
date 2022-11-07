@@ -3,18 +3,8 @@ import {manager as psmanager} from './projectStateManager.js'
 
 const dommanager = (function() {
     function initTimeButtons() {
-
-    };
-
-    function initProjects() {
-
-    };
-
-
-    function initPage() {
-        // Add appropriate functions to the time sort buttons
         let allButton = document.querySelector('.all');
-        allButton.onclick = () => {
+        allButton.onclick = function()  {
             let allButtons = document.querySelectorAll('.time-sort > div');
             allButtons.forEach((el) => {el.classList.remove('highlighted')});
             allButton.classList.add('highlighted');
@@ -26,7 +16,7 @@ const dommanager = (function() {
             renderTable();
         }
         let thisWeekButton = document.querySelector('.this-week');
-        thisWeekButton.onclick = () => {
+        thisWeekButton.onclick = function() {
             let allButtons = document.querySelectorAll('.time-sort > div');
             allButtons.forEach((el) => {el.classList.remove('highlighted')});
             thisWeekButton.classList.add('highlighted');
@@ -38,7 +28,7 @@ const dommanager = (function() {
             renderTable();
         }
         let overdueButton = document.querySelector('.overdue');
-        overdueButton.onclick = () => {
+        overdueButton.onclick = function() {
             let allButtons = document.querySelectorAll('.time-sort > div');
             allButtons.forEach((el) => {el.classList.remove('highlighted')});
             overdueButton.classList.add('highlighted');
@@ -49,11 +39,38 @@ const dommanager = (function() {
             status.setFinishedStatus(false);
             renderTable();
         }
+    };
+
+    function initProjects() {
+        if (localStorage.length == 0) {
+            psmanager.addProjectName('Default');
+            psmanager.addTodo('My first todo','Default','weoifjewf','High','2022-11-09',false);
+            psmanager.addTodo('My sec todo','Default','gdrgr','High','2023-11-09',false);
+            psmanager.addTodo('My  todo','Default','rtdrt','High','2022-12-09',false);
+        }
+    };
+
+
+    function initPage() {
+        initProjects();
+        populateProject();
+        initTimeButtons();
+
+        // Add appropriate functions to the time sort buttons
+        
 
     };
 
     function populateProject() {
-        
+        let projectcontainer = document.querySelector('projects-list');
+        let projectList = psmanager.getProjectList();
+        projectList.forEach((el) => {
+            let projectButton = document.createElement('div');
+            projectButton.classList.add('project-button');
+            projectButton.setAttribute('id',el);
+            projectButton.innerHTML = el;
+            projectcontainer.appendChild(projectButton)
+        })
     };
 
     function createModal() {
@@ -132,6 +149,8 @@ const dommanager = (function() {
     function createNoTasksDiv() {
 
     }
+
+    return {initPage}
 })();
 
 export default dommanager;

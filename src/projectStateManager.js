@@ -41,6 +41,10 @@ const manager = (function() {
         return project_tasks;
     }
 
+    function getProjectList() {
+        return  project_list;
+    }
+
     function addProjectName(somestr) {
         project_list.push(somestr);
     }
@@ -53,7 +57,7 @@ const manager = (function() {
         }
     }
 
-    return {dumpLS, resetLS, addTodo, addProjectName,removeProjectName,getProjectTasks,editTodoAttribute};
+    return {dumpLS, resetLS, addTodo, addProjectName,removeProjectName,getProjectTasks,editTodoAttribute, getProjectList};
 })();
 
 export {manager};
