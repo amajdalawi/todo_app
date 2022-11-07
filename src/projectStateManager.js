@@ -29,7 +29,8 @@ const manager = (function() {
             due_date: new Date(due_date),
             status
         };
-        localStorage.setItem(uuidNo,JSON.stringify(this[uuidNo]))
+        // console.log(project_tasks[uuid])
+        localStorage.setItem(uuidNo,JSON.stringify(project_tasks[uuidNo]))
     }
 
     function editTodoAttribute(uuid, attr, val) {

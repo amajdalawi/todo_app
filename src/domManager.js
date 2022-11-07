@@ -3,7 +3,9 @@ import {manager as psmanager} from './projectStateManager.js'
 
 const dommanager = (function() {
     function initTimeButtons() {
+
         let allButton = document.querySelector('.all');
+        console.log(allButton);
         allButton.onclick = function()  {
             let allButtons = document.querySelectorAll('.time-sort > div');
             allButtons.forEach((el) => {el.classList.remove('highlighted')});
@@ -42,6 +44,7 @@ const dommanager = (function() {
     };
 
     function initProjects() {
+        // psmanager.resetLS();
         if (localStorage.length == 0) {
             psmanager.addProjectName('Default');
             psmanager.addTodo('My first todo','Default','weoifjewf','High','2022-11-09',false);
@@ -62,7 +65,7 @@ const dommanager = (function() {
     };
 
     function populateProject() {
-        let projectcontainer = document.querySelector('projects-list');
+        let projectcontainer = document.querySelector('.projects-list');
         let projectList = psmanager.getProjectList();
         projectList.forEach((el) => {
             let projectButton = document.createElement('div');
@@ -81,6 +84,7 @@ const dommanager = (function() {
 
     function renderTable() {
         let taskList = status.getList();
+        console.log(taskList);
         let tableID = document.querySelector('#main-todo');
 
         if (taskList.length == 0) {

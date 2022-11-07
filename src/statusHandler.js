@@ -11,28 +11,36 @@ const status = (function() {
     function getList() {
         let shown_array = [];
         
-        project_tasks = manager.getProjectTasks();
-        for (const id of project_tasks) {
+        let project_tasks = manager.getProjectTasks();
+        // console.log(project_tasks)
+        for (const id of (Object.keys(project_tasks))) {
                 shown_array.push(Object.assign({},{UUID: id}, project_tasks[id]))
         }
+        // for testing
+        console.log(`shown array is ${shown_array}`)
+        for (const x of shown_array) {
+            console.log(x);
+        }
+        // end testing
+        
         if (!project_current) {
-            shown_array = shown_array.filter((el) => {return el[project] == project_current})
+            shown_array = shown_array.filter((el) => {return el['project'] == project_current})
         }
-        if (priority == 'High') {
-            shown_array = shown_array.filter((el) => {return el[priority] == 'High'})
+        if (priority === 'High') {
+            shown_array = shown_array.filter((el) => {return el['priority'] == 'High'})
         }
-        if (finished_status == true) {
-            shown_array = shown_array.filter((el) => {return el[status] == true})
+        if (finished_status === true) {
+            shown_array = shown_array.filter((el) => {return el['status'] == true})
         }
         let today = new Date(new Date().toJSON().slice(0,10));
-        if (date == 'Today') {
-            shown_array = shown_array.filter((el) => {return dfns.compareAsc(today, el[due_date] === 0)});
-        } else if (date == 'This Week') {
+        if (date === 'Today') {
+            shown_array = shown_array.filter((el) => {return dfns.compareAsc(today, el['due_date'] === 0)});
+        } else if (date === 'This Week') {
             shown_array = shown_array.filter((el) => {
-                return (dfns.compareAsc(today,el[due_date]) === -1 && dfns.compareAsc(dfns.addDays(today,7),el[due_date] === 1))
+                return (dfns.compareAsc(today,el['due_date']) === -1 && dfns.compareAsc(dfns.addDays(today,7),el['due_date'] === 1))
             })
-        } else if (date == 'Overdue') {
-            shown_array = shown_array.filter((el) => {return dfns.compareAsc(today, el[due_date] === 1)});
+        } else if (date === 'Overdue') {
+            shown_array = shown_array.filter((el) => {return dfns.compareAsc(today, el['due_date'] === 1)});
         }
 
         return shown_array;
