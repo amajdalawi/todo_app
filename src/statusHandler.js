@@ -22,8 +22,8 @@ const status = (function() {
             console.log(x);
         }
         // end testing
-        
-        if (!project_current) {
+
+        if (project_current) {
             shown_array = shown_array.filter((el) => {return el['project'] == project_current})
         }
         if (priority === 'High') {
@@ -34,10 +34,10 @@ const status = (function() {
         }
         let today = new Date(new Date().toJSON().slice(0,10));
         if (date === 'Today') {
-            shown_array = shown_array.filter((el) => {return dfns.compareAsc(today, el['due_date'] === 0)});
+            shown_array = shown_array.filter((el) => {return dfns.compareAsc(today, el['due_date']) === 0});
         } else if (date === 'This Week') {
             shown_array = shown_array.filter((el) => {
-                return (dfns.compareAsc(today,el['due_date']) === -1 && dfns.compareAsc(dfns.addDays(today,7),el['due_date'] === 1))
+                return (dfns.compareAsc(today,el['due_date']) === -1 && dfns.compareAsc(dfns.addDays(today,7),el['due_date']) === 1)
             })
         } else if (date === 'Overdue') {
             shown_array = shown_array.filter((el) => {return dfns.compareAsc(today, el['due_date'] === 1)});

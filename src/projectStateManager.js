@@ -10,8 +10,24 @@ const manager = (function() {
         }
     }
 
+    function ifobjinarray(obj,array) {
+        for (let i = 0; i < array.length; i++) {
+            if (array[i]  === obj)  {
+                return true;
+            }
+        }
+        return false;
+    }
+
     if (localStorage.length >  1) {
         dumpLS(project_tasks)
+        // must also dump the project Names of the todo tasks form the project_tasks into the project_list variable
+        for (const keyid of Object.keys(project_tasks)) {
+            if (!ifobjinarray(project_tasks[keyid]['project'], project_list)) {
+                project_list.push(project_tasks[keyid]['project'])
+            }
+
+        }
     }
 
     function resetLS() {

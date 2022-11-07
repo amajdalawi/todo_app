@@ -13,7 +13,7 @@ const dommanager = (function() {
             status.setPriority('');
             status.setdate('');
             let projectName = document.querySelector('.clicked-project-name') ? document.querySelector('.clicked-project-name').innerHTML : '';
-            status.setProjectName(projectName);
+            status.setProjectName('');
             status.setFinishedStatus(false);
             renderTable();
         }
@@ -25,7 +25,7 @@ const dommanager = (function() {
             status.setPriority('');
             status.setdate('This Week');
             let projectName = document.querySelector('.clicked-project-name') ? document.querySelector('.clicked-project-name').innerHTML : '';
-            status.setProjectName(projectName);
+            status.setProjectName('');
             status.setFinishedStatus(false);
             renderTable();
         }
@@ -37,7 +37,7 @@ const dommanager = (function() {
             status.setPriority('');
             status.setdate('Overdue');
             let projectName = document.querySelector('.clicked-project-name') ? document.querySelector('.clicked-project-name').innerHTML : '';
-            status.setProjectName(projectName);
+            status.setProjectName('');
             status.setFinishedStatus(false);
             renderTable();
         }
@@ -67,6 +67,8 @@ const dommanager = (function() {
     function populateProject() {
         let projectcontainer = document.querySelector('.projects-list');
         let projectList = psmanager.getProjectList();
+        console.log(`projectList is ${projectList}`)
+        console.log(projectList)
         projectList.forEach((el) => {
             let projectButton = document.createElement('div');
             projectButton.classList.add('project-button');
@@ -96,7 +98,7 @@ const dommanager = (function() {
         }
     };
 
-    function createTaskRow(uuid,title,desc,date) {
+    function createTaskRow(uuid,title,desc,date_s) {
         // create the row div itself
         let rowDiv = document.createElement('div');
         rowDiv.classList.add('task-row');
@@ -123,6 +125,7 @@ const dommanager = (function() {
 
         // create the date div
         let dateDiv = document.createElement('div');
+        let date = new Date(date_s);
         dateDiv.classList.add('due-date-content');
         dateDiv.innerHTML = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`;
         rowDiv.appendChild(dateDiv);
