@@ -12,7 +12,7 @@
         Todo-er!
     </div>
     <div class="ult-con">
-        <div class="main-todo">
+        <div class="main-todo" id="main-todo">
             <div class="table-header">
                 <div class="checked-placeholder"></div>
                 <div class="title-h">Title</div>
@@ -20,12 +20,30 @@
                 <div class="due-date">Due Date</div>
                 <div class="buttons-placeholder"></div>
             </div>
-            <div class="test-row">
-                <div class="checked-button-div">D</div>
+            <div class="task-row">
+                <div class="checked-button-div">
+                    <div class="check-button">
+
+                    </div>
+                </div>
                 <div class="title-content">safd</div>
                 <div class="desc-content">dasfsd</div>
                 <div class="due-date-content">332</div>
-                <div class="buttons-content">D</div>
+                <div class="buttons-content">
+                    <div class="buttons-flex">
+                        <div class="edit-button">
+                            <ion-icon name="pencil-outline"></ion-icon>
+                        </div>
+                        <div class="delete-button">
+                            <ion-icon name="trash-outline"></ion-icon>
+                        </div>
+                        <div class="show-info">
+                            <ion-icon name="information-circle-outline"></ion-icon>
+                        </div>
+
+
+                    </div>
+                </div>
                 
             </div>
         </div>
@@ -44,5 +62,7 @@
             </div>
         </div>
     </div>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>
 </html>

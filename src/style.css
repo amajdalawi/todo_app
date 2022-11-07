@@ -75,6 +75,10 @@ body {
     color: rgb(83, 60, 60);
 }
 
+.highlighted {
+    background-color: black;
+    color: aliceblue;
+}
 /* projects container styling  */
 
 
@@ -149,8 +153,47 @@ body {
 
 /* test row of table  */
 
-.test-row {
+.checked-button-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.check-button {
+    border-radius: 50%;
+    border: 1px solid black;
+    width: 10px;
+    height: 10px;
+}
+
+.check-button:hover {
+    background-color: rgba(255, 68, 68, 0.623);
+}
+
+.task-row {
     display: flex;
     padding: 10px 0px 10px 0px;
+}
+
+.buttons-flex {
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+}
+
+.buttons-flex > div {
+    cursor: pointer;
+}
+
+.show-info:hover {
+    color: blue;
+}
+
+.delete-button:hover {
+    color: rgb(163, 0, 0);
+}
+
+.edit-button:hover {
+    font-weight: bold;
 }
 
