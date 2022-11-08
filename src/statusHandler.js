@@ -17,10 +17,10 @@ const status = (function() {
                 shown_array.push(Object.assign({},{UUID: id}, project_tasks[id]))
         }
         // for testing
-        console.log(`shown array is ${shown_array}`)
-        for (const x of shown_array) {
-            console.log(x);
-        }
+        // console.log(`shown array is ${shown_array}`)
+        // for (const x of shown_array) {
+        //     console.log(x);
+        // }
         // end testing
 
         if (project_current) {
@@ -34,13 +34,18 @@ const status = (function() {
         }
         let today = new Date(new Date().toJSON().slice(0,10));
         if (date === 'Today') {
-            shown_array = shown_array.filter((el) => {return dfns.compareAsc(today, el['due_date']) === 0});
+            shown_array = shown_array.filter((el) => {return dfns.compareAsc(today, new Date(el['due_date'])) === 0});
         } else if (date === 'This Week') {
             shown_array = shown_array.filter((el) => {
-                return (dfns.compareAsc(today,el['due_date']) === -1 && dfns.compareAsc(dfns.addDays(today,7),el['due_date']) === 1)
+                return (dfns.compareAsc(today,new Date(el['due_date'])) === -1 && dfns.compareAsc(dfns.addDays(today,7),new Date(el['due_date'])) === 1)
             })
         } else if (date === 'Overdue') {
-            shown_array = shown_array.filter((el) => {return dfns.compareAsc(today, el['due_date'] === 1)});
+            console.log(date)
+            shown_array = shown_array.filter((el) => {
+                console.log(`the date of today var is ${today}, and for the due date it is ${new Date(el['due_date'])}`)
+                console.log(dfns.compareAsc(today, new Date(el['due_date'])))
+                
+                return dfns.compareAsc(today, new Date(el['due_date'])) === 1});
         }
 
         return shown_array;

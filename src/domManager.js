@@ -58,6 +58,7 @@ const dommanager = (function() {
         initProjects();
         populateProject();
         initTimeButtons();
+        renderTable();
 
         // Add appropriate functions to the time sort buttons
         
@@ -85,6 +86,16 @@ const dommanager = (function() {
 
 
     function renderTable() {
+        // remove all the divs after the table header
+        let listOfTodos = document.querySelectorAll('.task-row');
+        let mainTableDiv = document.querySelector('#main-todo')
+        for (let x of listOfTodos) {
+            mainTableDiv.removeChild(x);
+        }
+
+
+
+        // get the list of tasks according to the status variables
         let taskList = status.getList();
         console.log(taskList);
         let tableID = document.querySelector('#main-todo');
@@ -127,7 +138,7 @@ const dommanager = (function() {
         let dateDiv = document.createElement('div');
         let date = new Date(date_s);
         dateDiv.classList.add('due-date-content');
-        dateDiv.innerHTML = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`;
+        dateDiv.innerHTML = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
         rowDiv.appendChild(dateDiv);
 
         // create the buttons div
