@@ -88,12 +88,15 @@ const dommanager = (function() {
     function renderTable() {
         // remove all the divs after the table header
         let listOfTodos = document.querySelectorAll('.task-row');
-        let mainTableDiv = document.querySelector('#main-todo')
+        let mainTableDiv = document.querySelector('#main-todo');
         for (let x of listOfTodos) {
             mainTableDiv.removeChild(x);
+        };
+        let noTodoDiv  = document.querySelector('.no-task');
+        if (noTodoDiv) {
+            mainTableDiv.removeChild(noTodoDiv);
+
         }
-
-
 
         // get the list of tasks according to the status variables
         let taskList = status.getList();
@@ -165,7 +168,12 @@ const dommanager = (function() {
     }
 
     function createNoTasksDiv() {
-
+        // let mainTableDiv = document.querySelector('#main-todo');
+        let noTodoDiv = document.createElement('div');
+        noTodoDiv.classList.add('no-task');
+        noTodoDiv.innerHTML = 'No Tasks to show'
+        // mainTableDiv.appendChild(noTodoDiv);
+        return noTodoDiv;
     }
 
     return {initPage}

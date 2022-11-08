@@ -151,6 +151,16 @@ body {
     border-right: 1px rgb(196, 194, 194) solid;
 }
 
+.no-task {
+    text-align: center;
+    font-size: 26px;
+    color: grey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 10px;
+}
+
 /* test row of table  */
 
 .checked-button-div {
