@@ -74,7 +74,12 @@ const manager = (function() {
         }
     }
 
-    return {dumpLS, resetLS, addTodo, addProjectName,removeProjectName,getProjectTasks,editTodoAttribute, getProjectList};
+    function removeTodo(uuidno) {
+        delete project_tasks[uuidno];
+        localStorage.removeItem(uuidno);
+    }
+
+    return {dumpLS, resetLS, addTodo, addProjectName,removeProjectName,getProjectTasks,editTodoAttribute, getProjectList, removeTodo};
 })();
 
 export {manager};

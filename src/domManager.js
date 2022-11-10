@@ -2,6 +2,46 @@ import {status as status} from './statusHandler.js'
 import {manager as psmanager} from './projectStateManager.js'
 
 const dommanager = (function() {
+    function initButtons() {
+        let addTaskButton = document.querySelector('.add-task-button');
+        addTaskButton.onclick = function() {
+            createModal();
+            // the modal window to add the add task form into 
+            let modalWindow = document.querySelector('.modal-window');
+
+            let formEl = document.createElement('form');
+            
+            // title of task
+            let titleLabel = document.createElement('label');
+            titleLabel.setAttribute('for','title');
+            titleLabel.innerHTML = 'Title';
+            let titleForm = document.createElement('input');
+            titleForm.setAttribute('id','title');
+            titleForm.setAttribute('type','text');
+            formEl.appendChild(titleLabel);
+            formEl.appendChild(titleForm);
+
+            // task project
+            let pl = psmanager.getProjectList();
+            let projectListLabel = document.createElement('label');
+            projectListLabel.setAttribute('for','projectName');
+            projectListLabel.innerHTML = 'Project Name';
+            let projectListForm = document.createElement('select');
+            projectListForm.setAttribute('id','projectName');
+            projectListForm.setAttribute('name','projectName');
+            for (const x of pl) {
+                projectListForm.innerHTML += `<option value="${x}">${x}</option>`
+
+            }
+            formEl.appendChild(projectListLabel);
+            formEl.appendChild(projectListForm);
+
+            
+
+            modalWindow.appendChild(formEl);
+        }
+    }
+
     function initTimeButtons() {
 
         let allButton = document.querySelector('.all');
@@ -59,7 +99,7 @@ const dommanager = (function() {
         populateProject();
         initTimeButtons();
         renderTable();
-
+        initButtons();
         // Add appropriate functions to the time sort buttons
         
 
@@ -122,6 +162,9 @@ const dommanager = (function() {
         checkDiv.classList.add('checked-button-div');
         let checkCircle = document.createElement('div');
         checkCircle.classList.add('check-button');
+        checkCircle.onclick = function() {
+            // to do tomorrow
+        }
         checkDiv.appendChild(checkCircle);
         rowDiv.appendChild(checkDiv);
 
@@ -156,6 +199,10 @@ const dommanager = (function() {
         let deleteButtonDiv = document.createElement('div');
         deleteButtonDiv.classList.add('delete-button');
         deleteButtonDiv.innerHTML = '<ion-icon name="trash-outline"></ion-icon>';
+        deleteButtonDiv.onclick = function() {
+            psmanager.removeTodo(uuid);
+            renderTable();
+        }
         let infoButtonDiv = document.createElement('div');
         infoButtonDiv.classList.add('show-info');
         infoButtonDiv.innerHTML = '<ion-icon name="information-circle-outline"></ion-icon>';
@@ -174,6 +221,25 @@ const dommanager = (function() {
         noTodoDiv.innerHTML = 'No Tasks to show'
         // mainTableDiv.appendChild(noTodoDiv);
         return noTodoDiv;
+    }
+
+    function createModal() {
+        // opaque bg
+        let modalBg = document.createElement('div');
+        modalBg.classList.add('modal-bg');
+
+        // modal window element
+        let modalWindow = document.createElement('div');
+        modalWindow.classList.add('modal-window');
+        modalBg.appendChild(modalWindow);
+        let body = document.querySelector('body');
+        body.appendChild(modalBg);
+
+        window.onclick = function(e) {
+            if (e.target == modalBg) {
+                body.removeChild(modalBg);
+            }
+        }
     }
 
     return {initPage}
