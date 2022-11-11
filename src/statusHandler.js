@@ -33,7 +33,7 @@ const status = (function() {
             shown_array = shown_array.filter((el) => {return el['status'] == true})
         }
         let today = new Date(new Date().toJSON().slice(0,10));
-        console.log(today)
+        // console.log(today)
         if (date === 'Today') {
             shown_array = shown_array.filter((el) => {return dfns.compareAsc(today, new Date(el['due_date'])) === 0});
         } else if (date === 'This Week') {
@@ -41,10 +41,10 @@ const status = (function() {
                 return (dfns.compareAsc(today,new Date(el['due_date'])) === -1 && dfns.compareAsc(dfns.addDays(today,7),new Date(el['due_date'])) === 1)
             })
         } else if (date === 'Overdue') {
-            console.log(date)
+            // console.log(date)
             shown_array = shown_array.filter((el) => {
-                console.log(`the date of today var is ${today}, and for the due date it is ${new Date(el['due_date'])}`)
-                console.log(dfns.compareAsc(today, new Date(el['due_date'])))
+                // console.log(`the date of today var is ${today}, and for the due date it is ${new Date(el['due_date'])}`)
+                // console.log(dfns.compareAsc(today, new Date(el['due_date'])))
                 
                 return dfns.compareAsc(today, new Date(el['due_date'])) === 1});
         }

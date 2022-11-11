@@ -229,9 +229,70 @@ body {
 }
 
 .modal-window {
-    width: 30%;
-    padding: 20px;
+    width: max(20%,300px);
+    padding: 15px 20px;
     border:rgb(66, 66, 66) solid 3px;
-    margin: 15% auto;
+    margin: 10% auto;
     background-color: aliceblue;
 }
+
+.modal-window label, .modal-window input {
+    display: block;
+
+}
+
+.modal-window label {
+    margin-top: 20px;
+}
+
+.modal-window input {
+    margin-top: 10px;
+}
+
+input[type="text"] {
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+input[type="text"]:invalid {
+    border-color: red;
+}
+
+.modal-window select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+
+input[type="date"] {
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+label[for='title'] {
+    margin-top: 5px;
+}
+
+.modal-window button {
+    display: block;
+    background-color: aliceblue;
+    border:rgb(66, 66, 66) solid 2px;
+    padding: 3px 5px;
+    margin-top: 10px;
+}
+
+.modal-window textarea {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 10px;
+    padding: 5px;
+    border-color: grey;
+}
+

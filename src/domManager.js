@@ -19,6 +19,7 @@ const dommanager = (function() {
             titleForm.setAttribute('id','title');
             titleForm.setAttribute('type','text');
             titleForm.setAttribute('name','title');
+            titleForm.setAttribute('required','');
             formEl.appendChild(titleLabel);
             formEl.appendChild(titleForm);
 
@@ -45,6 +46,7 @@ const dommanager = (function() {
             dueDateForm.setAttribute('type','date');
             dueDateForm.setAttribute('id','due_date');
             dueDateForm.setAttribute('name','due_date');
+            dueDateForm.setAttribute('required','');
             formEl.appendChild(dueDateLabel);
             formEl.appendChild(dueDateForm);
 
@@ -73,15 +75,14 @@ const dommanager = (function() {
             let descForm = document.createElement('textarea');
             descForm.setAttribute('id','description');
             descForm.setAttribute('name','description');
+            descForm.setAttribute('rows','5')
+            formEl.appendChild(descrLabel);
             formEl.appendChild(descForm);
 
             // submit button
             let submitBtn = document.createElement('button');
             submitBtn.setAttribute('type','submit');
             submitBtn.innerHTML = 'Submit Task';
-            
-            
-              
             formEl.appendChild(submitBtn);
 
 
