@@ -70,7 +70,11 @@ const status = (function() {
         finished_status = st;
     }
 
-    return {getList, setPriority, setProjectName,setdate,setFinishedStatus}
+    function getProjectName() {
+        return project_current;
+    }
+
+    return {getList, setPriority, setProjectName,setdate,setFinishedStatus, getProjectName}
 })();
 
 export {status};

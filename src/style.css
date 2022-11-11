@@ -94,18 +94,41 @@ body {
     padding: 10px;
 }
 
+.projects-list > div {
+    display: flex;
+    gap: 5px;
+
+}
+
 .project-button {
     text-align: center;
     /* width: 100%; */
     padding: 10px;
     display: flex;
+    flex: 1;
     align-items: center;
     justify-content: center;
     border: 3px rgb(66, 66, 66) solid;
 
 }
 
-.project-button:hover {
+.project-edit-button, .project-delete-button {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px rgb(66, 66, 66) solid;
+}
+
+.project-edit-button:hover {
+    color:rgb(0, 81, 255)
+}
+
+.project-delete-button:hover {
+    color:rgb(163, 0, 0)
+}
+
+.projects-list > div > div {
     cursor: pointer;
 
 }
@@ -296,3 +319,32 @@ label[for='title'] {
     border-color: grey;
 }
 
+/* project edit and delete buttons styling  */
+
+.button-modal-project-wrapper {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    gap: 5px;
+    padding-top: 10px;
+    justify-content: flex-end;
+}
+
+.cancel-button-modal-project {
+    flex: 0;
+    padding: 3px 5px;
+    border:rgb(66, 66, 66) solid 2px;
+    background-color: white;
+}
+
+.delete-button-modal-project {
+    flex: 0;
+    padding: 3px 5px;
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    /* margin-left: auto; */
+}
+
+.button-modal-project-wrapper > div:hover {
+    cursor: pointer;
+}

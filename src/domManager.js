@@ -25,6 +25,7 @@ const dommanager = (function() {
 
             // task project
             let pl = psmanager.getProjectList();
+            console.log(pl)
             let projectListLabel = document.createElement('label');
             projectListLabel.setAttribute('for','projectName');
             projectListLabel.innerHTML = 'Project Name';
@@ -153,7 +154,6 @@ const dommanager = (function() {
         }
     };
 
-
     function initPage() {
         initProjects();
         populateProject();
@@ -168,14 +168,95 @@ const dommanager = (function() {
     function populateProject() {
         let projectcontainer = document.querySelector('.projects-list');
         let projectList = psmanager.getProjectList();
-        console.log(`projectList is ${projectList}`)
-        console.log(projectList)
+        // console.log(`projectList is ${projectList}`)
+        // console.log(projectList)
         projectList.forEach((el) => {
             let projectButton = document.createElement('div');
+            let projectButtonWrapper = document.createElement('div');
+            projectButtonWrapper.appendChild(projectButton);
             projectButton.classList.add('project-button');
             projectButton.setAttribute('id',el);
             projectButton.innerHTML = el;
-            projectcontainer.appendChild(projectButton)
+
+            // Create the edit button
+            let projectNameEditButton = document.createElement('div');
+            projectNameEditButton.classList.add('project-edit-button')
+            projectNameEditButton.innerHTML = '<ion-icon name="pencil-outline"></ion-icon>'
+            projectButtonWrapper.appendChild(projectNameEditButton);
+
+            // create the delete button
+            let projectDeleteButton = document.createElement('div');
+            projectDeleteButton.classList.add('project-delete-button');
+            projectDeleteButton.innerHTML = '<ion-icon name="trash-outline"></ion-icon>'
+            projectDeleteButton.onclick = function() {
+                createModal();
+                let modalWindow = document.querySelector('.modal-window');
+                modalWindow.style.width = 'max(23%,315px)'
+                let warningDiv = document.createElement('div');
+                warningDiv.innerHTML = 'Are you sure you want to delete this project and all its tasks?'
+                modalWindow.appendChild(warningDiv)
+
+                // button wrapper div
+                let buttonWrapper = document.createElement('div');
+                buttonWrapper.classList.add('button-modal-project-wrapper')
+
+                //close modal button
+                let closeModal = document.createElement('div');
+                closeModal.innerHTML = 'Cancel';
+                closeModal.classList.add('cancel-button-modal-project');
+                closeModal.onclick = function() {
+                    let bodyDoc = document.querySelector('body');
+                    let modalBG = document.querySelector('.modal-bg');
+                    
+                    bodyDoc.removeChild(modalBG);
+                }
+                buttonWrapper.appendChild(closeModal);
+
+
+                //delete button
+                let deleteButtonFinalDiv = document.createElement('div');
+                deleteButtonFinalDiv.innerHTML = 'Delete';
+                deleteButtonFinalDiv.classList.add('delete-button-modal-project');
+                deleteButtonFinalDiv.onclick = function() {
+                    let projectMainObj = psmanager.getProjectTasks();
+                    for (const x of Object.keys(projectMainObj)) {
+                        if (projectMainObj[x]['project'] == el) {
+                            psmanager.removeTodo(x);
+                        }
+                    }
+                    let currentP = status.getProjectName();
+                    psmanager.removeProjectName(el);
+                    let projectlists = psmanager.getProjectList();
+                    if (el == currentP) {
+                        if (projectlists.length > 0) {
+                            status.setProjectName(projectlists[0])
+                        } else {
+                            psmanager.addProjectName('Default');
+                    status.setProjectName('Default');
+                        }
+                    }
+                    psmanager.addProjectName('Default');
+                    status.setProjectName('Default');
+                    let bodyDoc = document.querySelector('body');
+                    let modalBG = document.querySelector('.modal-bg');
+                    bodyDoc.removeChild(modalBG);
+
+                    populateProject();
+                    renderTable();
+                }
+                buttonWrapper.appendChild(deleteButtonFinalDiv);
+                
+                modalWindow.appendChild(buttonWrapper);
+                
+            }
+
+
+
+
+            projectButtonWrapper.appendChild(projectDeleteButton);            
+
+            projectcontainer.appendChild(projectButtonWrapper)
+
         })
     };
 
