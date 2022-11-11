@@ -18,6 +18,7 @@ const dommanager = (function() {
             let titleForm = document.createElement('input');
             titleForm.setAttribute('id','title');
             titleForm.setAttribute('type','text');
+            titleForm.setAttribute('name','title');
             formEl.appendChild(titleLabel);
             formEl.appendChild(titleForm);
 
@@ -36,9 +37,67 @@ const dommanager = (function() {
             formEl.appendChild(projectListLabel);
             formEl.appendChild(projectListForm);
 
+            // due date el
+            let dueDateLabel = document.createElement('label');
+            dueDateLabel.setAttribute('for','due_date');
+            dueDateLabel.innerHTML = 'Due Date';
+            let dueDateForm = document.createElement('input');
+            dueDateForm.setAttribute('type','date');
+            dueDateForm.setAttribute('id','due_date');
+            dueDateForm.setAttribute('name','due_date');
+            formEl.appendChild(dueDateLabel);
+            formEl.appendChild(dueDateForm);
+
+            // priority options
+            let prioLabel = document.createElement('label');
+            prioLabel.setAttribute('for','priority');
+            prioLabel.innerHTML = 'Priority';
+            let prioForm = document.createElement('select');
+            prioForm.setAttribute('id','priority');
+            prioForm.setAttribute('name','priority');
+            let lowPrio = document.createElement('option');
+            lowPrio.setAttribute('value','Low');
+            lowPrio.innerHTML = "Low";
+            let highPrio = document.createElement('option');
+            highPrio.setAttribute('value','High');
+            highPrio.innerHTML = "High";
+            prioForm.appendChild(lowPrio);
+            prioForm.appendChild(highPrio);
+            formEl.appendChild(prioLabel);
+            formEl.appendChild(prioForm);
+
+            // desc
+            let descrLabel = document.createElement('label');
+            descrLabel.setAttribute('for','description');
+            descrLabel.innerHTML = 'Description';
+            let descForm = document.createElement('textarea');
+            descForm.setAttribute('id','description');
+            descForm.setAttribute('name','description');
+            formEl.appendChild(descForm);
+
+            // submit button
+            let submitBtn = document.createElement('button');
+            submitBtn.setAttribute('type','submit');
+            submitBtn.innerHTML = 'Submit Task';
             
+            
+              
+            formEl.appendChild(submitBtn);
+
+
 
             modalWindow.appendChild(formEl);
+            formEl.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const data = Object.fromEntries(new FormData(e.target).entries());
+                // console.log(data)
+                let body = document.querySelector('body');
+                // console.log(data.title,e['projectName'],e['description'],e['priority'],new Date(e['due_date']))
+
+                psmanager.addTodo(data['title'],data['projectName'],data['description'],data['priority'],new Date(data['due_date']))
+                body.removeChild(document.querySelector('.modal-bg'))
+                renderTable();
+              });
         }
     }
 
@@ -118,12 +177,6 @@ const dommanager = (function() {
             projectcontainer.appendChild(projectButton)
         })
     };
-
-    function createModal() {
-
-    };
-
-
 
     function renderTable() {
         // remove all the divs after the table header

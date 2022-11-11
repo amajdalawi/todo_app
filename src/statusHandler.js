@@ -33,6 +33,7 @@ const status = (function() {
             shown_array = shown_array.filter((el) => {return el['status'] == true})
         }
         let today = new Date(new Date().toJSON().slice(0,10));
+        console.log(today)
         if (date === 'Today') {
             shown_array = shown_array.filter((el) => {return dfns.compareAsc(today, new Date(el['due_date'])) === 0});
         } else if (date === 'This Week') {
