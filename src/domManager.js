@@ -96,7 +96,7 @@ const dommanager = (function() {
                 let body = document.querySelector('body');
                 // console.log(data.title,e['projectName'],e['description'],e['priority'],new Date(e['due_date']))
 
-                psmanager.addTodo(data['title'],data['projectName'],data['description'],data['priority'],new Date(data['due_date']))
+                psmanager.addTodo(data['title'],data['projectName'],data['description'],data['priority'],new Date(data['due_date']),false)
                 body.removeChild(document.querySelector('.modal-bg'))
                 renderTable();
               });
@@ -168,6 +168,8 @@ const dommanager = (function() {
     function populateProject() {
         let projectcontainer = document.querySelector('.projects-list');
         let projectList = psmanager.getProjectList();
+        console.log(projectList);
+        projectcontainer.innerHTML = '';
         // console.log(`projectList is ${projectList}`)
         // console.log(projectList)
         projectList.forEach((el) => {
@@ -232,7 +234,7 @@ const dommanager = (function() {
                             status.setProjectName(projectlists[0])
                         } else {
                             psmanager.addProjectName('Default');
-                    status.setProjectName('Default');
+                            status.setProjectName('Default');
                         }
                     }
                     psmanager.addProjectName('Default');

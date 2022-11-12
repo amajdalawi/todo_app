@@ -19,7 +19,7 @@ const manager = (function() {
         return false;
     }
 
-    if (localStorage.length >  1) {
+    if (localStorage.length >  0) {
         dumpLS(project_tasks)
         // must also dump the project Names of the todo tasks form the project_tasks into the project_list variable
         for (const keyid of Object.keys(project_tasks)) {
