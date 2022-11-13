@@ -185,6 +185,57 @@ const dommanager = (function() {
             projectNameEditButton.classList.add('project-edit-button')
             projectNameEditButton.innerHTML = '<ion-icon name="pencil-outline"></ion-icon>'
             projectButtonWrapper.appendChild(projectNameEditButton);
+            projectNameEditButton.onclick = function() {
+                createModal();
+                let modalWindow = document.querySelector('.modal-window');
+
+                //create label and input
+                let actualFormTag = document.createElement('form');
+                let formWrapper = document.createElement('div');
+                let labelEdit = document.createElement('label');
+                labelEdit.setAttribute('for','project_name');
+                let inputEdit = document.createElement('input');
+                inputEdit.setAttribute('id','project_name');
+                inputEdit.setAttribute('type','text');
+                let modifiedList = projectList.filter((i) => {i !== el});
+                let patternString = modifiedList.join('|');
+                inputEdit.setAttribute('pattern','\b(?!(' + patternString + ')\b)\w+');
+                inputEdit.setAttribute('required','');
+                formWrapper.appendChild(labelEdit);
+                formWrapper.appendChild(inputEdit);
+                actualFormTag.appendChild(formWrapper);
+                modalWindow.appendChild(actualFormTag);
+
+                // create the buttons and their wrapper div
+                let buttonWrapper = document.createElement('div');
+                let cancelButton = document.createElement('div');
+                let submitEditButton = document.createElement('div');
+                buttonWrapper.appendChild(cancelButton);
+                buttonWrapper.appendChild(submitEditButton);
+
+                // add functinoality to the buttons
+                cancelButton.onclick = function() {
+                    let bodyEl = document.querySelector('body');
+                    bodyEl.removeChild(document.querySelector('.modal-bg'));
+
+                }
+                submitEditButton.onclick = function() {
+                    actualFormTag.addEventListener('submit',(e) => {
+                        e.preventDefault();
+                        const data = Object.fromEntries(new FormData(e.target).entries());
+                        projectButton.innerHTML = data['project_name'];
+                        psmanager.removeProjectName(el);
+                        psmanager.addProjectName(data['project_name'])
+                        let pTasks = psmanager.getProjectTasks();
+                        for (const k of Object.keys(pTasks)) {
+                            if (pTasks[k]['project'] == el) {
+                                psmanager.editTodoAttribute(k,'project',data['project_name'])
+                            }
+                        }
+                    })
+                }
+            }
+
 
             // create the delete button
             let projectDeleteButton = document.createElement('div');
