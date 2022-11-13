@@ -303,7 +303,7 @@ label[for='title'] {
     margin-top: 5px;
 }
 
-.modal-window button {
+.modal-window .add-task-form button {
     display: block;
     background-color: aliceblue;
     border:rgb(66, 66, 66) solid 2px;
@@ -339,12 +339,61 @@ label[for='title'] {
 .delete-button-modal-project {
     flex: 0;
     padding: 3px 5px;
-    background-color: red;
+    background-color: rgb(165, 29, 29);
     color: white;
     font-weight: bold;
+    border:rgb(66, 66, 66) 2px solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     /* margin-left: auto; */
 }
 
 .button-modal-project-wrapper > div:hover {
+    cursor: pointer;
+}
+
+/* for the project button  */
+
+.highlighted-project {
+    background-color: black;
+    color:aliceblue
+}
+
+/* for the edit project modal window  */
+
+.modal-window label[for="project_name"] {
+    margin-top: 4px;
+
+}
+
+.button-wrapper-edit-project-modal {
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.project-edit-cancel-button-modal, .modal-window form .submit-button-edit-project-modal {
+    padding: 3px 5px;
+    /* flex: 0; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.project-edit-cancel-button-modal {
+    background-color: aliceblue;
+    border:rgb(66, 66, 66) 3px solid;
+
+}
+
+.submit-button-edit-project-modal {
+    background-color: rgb(161, 10, 10);
+    color: aliceblue;
+    /* border: aliceblue 3px solid; */
+}
+
+.project-edit-cancel-button-modal:hover, .submit-button-edit-project-modal:hover {
     cursor: pointer;
 }

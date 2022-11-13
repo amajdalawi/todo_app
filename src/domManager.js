@@ -10,7 +10,7 @@ const dommanager = (function() {
             let modalWindow = document.querySelector('.modal-window');
 
             let formEl = document.createElement('form');
-            
+            formEl.classList.add('add-task-form')
             // title of task
             let titleLabel = document.createElement('label');
             titleLabel.setAttribute('for','title');
@@ -179,6 +179,13 @@ const dommanager = (function() {
             projectButton.classList.add('project-button');
             projectButton.setAttribute('id',el);
             projectButton.innerHTML = el;
+            projectButton.onclick = function() {
+                let projectButtonsList = document.querySelectorAll('.project-button')
+                projectButtonsList.forEach((ll) => {ll.classList.remove('highlighted-project')});
+                projectButton.classList.add('highlighted-project');
+                status.setProjectName(el);
+                renderTable();
+            }
 
             // Create the edit button
             let projectNameEditButton = document.createElement('div');
@@ -193,13 +200,20 @@ const dommanager = (function() {
                 let actualFormTag = document.createElement('form');
                 let formWrapper = document.createElement('div');
                 let labelEdit = document.createElement('label');
+                labelEdit.innerHTML = 'Enter the new project name'
                 labelEdit.setAttribute('for','project_name');
                 let inputEdit = document.createElement('input');
                 inputEdit.setAttribute('id','project_name');
+                inputEdit.setAttribute('name','project_name')
                 inputEdit.setAttribute('type','text');
                 let modifiedList = projectList.filter((i) => {i !== el});
+                console.log(modifiedList)
                 let patternString = modifiedList.join('|');
-                inputEdit.setAttribute('pattern','\b(?!(' + patternString + ')\b)\w+');
+                if (modifiedList.length > 0) {
+                    let regexVar = new RegExp('\\b(?!(' + patternString + ')\\b)\w+/')
+                    inputEdit.setAttribute('pattern',regexVar);
+                    
+                }
                 inputEdit.setAttribute('required','');
                 formWrapper.appendChild(labelEdit);
                 formWrapper.appendChild(inputEdit);
@@ -209,9 +223,16 @@ const dommanager = (function() {
                 // create the buttons and their wrapper div
                 let buttonWrapper = document.createElement('div');
                 let cancelButton = document.createElement('div');
-                let submitEditButton = document.createElement('div');
-                buttonWrapper.appendChild(cancelButton);
-                buttonWrapper.appendChild(submitEditButton);
+                let submitEditButton = document.createElement('button');
+                submitEditButton.setAttribute('type','submit')
+                
+                buttonWrapper.classList.add('button-wrapper-edit-project-modal')
+                cancelButton.classList.add('project-edit-cancel-button-modal');
+                submitEditButton.classList.add('submit-button-edit-project-modal');
+
+
+                cancelButton.innerHTML = 'Cancel';
+                submitEditButton.innerHTML = 'Confirm Edit'
 
                 // add functinoality to the buttons
                 cancelButton.onclick = function() {
@@ -219,21 +240,27 @@ const dommanager = (function() {
                     bodyEl.removeChild(document.querySelector('.modal-bg'));
 
                 }
-                submitEditButton.onclick = function() {
-                    actualFormTag.addEventListener('submit',(e) => {
-                        e.preventDefault();
-                        const data = Object.fromEntries(new FormData(e.target).entries());
-                        projectButton.innerHTML = data['project_name'];
-                        psmanager.removeProjectName(el);
-                        psmanager.addProjectName(data['project_name'])
-                        let pTasks = psmanager.getProjectTasks();
-                        for (const k of Object.keys(pTasks)) {
-                            if (pTasks[k]['project'] == el) {
-                                psmanager.editTodoAttribute(k,'project',data['project_name'])
-                            }
+                actualFormTag.addEventListener('submit',(e) => {
+                    e.preventDefault();
+                    const data = Object.fromEntries(new FormData(e.target).entries());
+                    console.log(data['project_name'])
+                    projectButton.innerHTML = data['project_name'];
+                    psmanager.removeProjectName(el);
+                    psmanager.addProjectName(data['project_name'])
+                    let pTasks = psmanager.getProjectTasks();
+                    for (const k of Object.keys(pTasks)) {
+                        if (pTasks[k]['project'] == el) {
+                            psmanager.editTodoAttribute(k,'project',data['project_name'])
                         }
-                    })
-                }
+                    }
+                    let bodyElement = document.querySelector('body');
+                    bodyElement.removeChild(document.querySelector('.modal-bg'))
+                    renderTable();
+                })
+                
+                buttonWrapper.appendChild(cancelButton);
+                buttonWrapper.appendChild(submitEditButton);
+                actualFormTag.appendChild(buttonWrapper)
             }
 
 
