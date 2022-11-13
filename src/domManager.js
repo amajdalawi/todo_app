@@ -3,6 +3,7 @@ import {manager as psmanager} from './projectStateManager.js'
 
 const dommanager = (function() {
     function initButtons() {
+        // add task button
         let addTaskButton = document.querySelector('.add-task-button');
         addTaskButton.onclick = function() {
             createModal();
@@ -100,7 +101,56 @@ const dommanager = (function() {
                 body.removeChild(document.querySelector('.modal-bg'))
                 renderTable();
               });
+        };
+
+        let addNewProjectButton = document.querySelector('.add-project-icon');
+        addNewProjectButton.onclick = function() {
+            createModal();
+            // create the form for the project creation
+            let formElement = document.createElement('form');
+            let textLabel = document.createElement('label');
+            textLabel.innerHTML = 'Enter the new project name';
+            textLabel.setAttribute('for','new_project_name');
+            let textInput = document.createElement('input');
+            textInput.setAttribute('id','new_project_name');
+            textInput.setAttribute('name','new_project_name');
+            textInput.setAttribute('type','text')
+            let originalList = psmanager.getProjectList();
+            let patternString = originalList.join('|');
+            let regexPattern = new RegExp(`\\b(?!(${patternString})\\b)\\w*`);
+            textInput.setAttribute('pattern',regexPattern.source);
+            textInput.setAttribute('required','');
+
+            //create the subtmit button
+            let buttonWrapper = document.createElement('div');
+            buttonWrapper.classList.add('create-new-project-button-wrapper');
+            let submitButton = document.createElement('button');
+            submitButton.setAttribute('type','submit');
+            submitButton.innerHTML = 'Create New Project';
+            submitButton.classList.add('create-new-project-name-button');
+            buttonWrapper.appendChild(submitButton);
+
+            formElement.addEventListener('submit',(e) => {
+                e.preventDefault();
+                const data = Object.fromEntries(new FormData(e.target).entries());
+                psmanager.addProjectName(data['new_project_name']);
+                populateProject();
+                let body = document.querySelector('body');
+                let modalbg = document.querySelector('.modal-bg');
+                body.removeChild(modalbg);
+
+            })
+            
+            formElement.appendChild(textLabel);
+            formElement.appendChild(textInput);
+            formElement.appendChild(buttonWrapper);
+            let modal_window = document.querySelector('.modal-window');
+            modal_window.appendChild(formElement);
+                  
         }
+
+        // add new project Button
+
     }
 
     function initTimeButtons() {
@@ -114,7 +164,7 @@ const dommanager = (function() {
             status.setPriority('');
             status.setdate('');
             let projectName = document.querySelector('.clicked-project-name') ? document.querySelector('.clicked-project-name').innerHTML : '';
-            status.setProjectName('');
+            // status.setProjectName('');
             status.setFinishedStatus(false);
             renderTable();
         }
@@ -123,10 +173,10 @@ const dommanager = (function() {
             let allButtons = document.querySelectorAll('.time-sort > div');
             allButtons.forEach((el) => {el.classList.remove('highlighted')});
             thisWeekButton.classList.add('highlighted');
-            status.setPriority('');
+            // status.setPriority('');
             status.setdate('This Week');
             let projectName = document.querySelector('.clicked-project-name') ? document.querySelector('.clicked-project-name').innerHTML : '';
-            status.setProjectName('');
+            // status.setProjectName('');
             status.setFinishedStatus(false);
             renderTable();
         }
@@ -135,10 +185,10 @@ const dommanager = (function() {
             let allButtons = document.querySelectorAll('.time-sort > div');
             allButtons.forEach((el) => {el.classList.remove('highlighted')});
             overdueButton.classList.add('highlighted');
-            status.setPriority('');
+            // status.setPriority('');
             status.setdate('Overdue');
             let projectName = document.querySelector('.clicked-project-name') ? document.querySelector('.clicked-project-name').innerHTML : '';
-            status.setProjectName('');
+            // status.setProjectName('');
             status.setFinishedStatus(false);
             renderTable();
         }
@@ -211,7 +261,7 @@ const dommanager = (function() {
                 let patternString = modifiedList.join('|');
                 if (modifiedList.length > 0) {
                     let regexVar = new RegExp('\\b(?!(' + patternString + ')\\b)\w+/')
-                    inputEdit.setAttribute('pattern',regexVar);
+                    inputEdit.setAttribute('pattern',regexVar.source);
                     
                 }
                 inputEdit.setAttribute('required','');
@@ -315,8 +365,6 @@ const dommanager = (function() {
                             status.setProjectName('Default');
                         }
                     }
-                    psmanager.addProjectName('Default');
-                    status.setProjectName('Default');
                     let bodyDoc = document.querySelector('body');
                     let modalBG = document.querySelector('.modal-bg');
                     bodyDoc.removeChild(modalBG);

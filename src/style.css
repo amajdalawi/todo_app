@@ -83,12 +83,36 @@ body {
 
 
 
+
 .projects-header {
     background-color: rgb(66, 66, 66);
     color: aliceblue;
+    display:flex;
     font-size: 26px;
     padding: 10px 15px;
 }
+
+.projects-list-title {
+    flex:1;
+}
+
+.add-project-icon {
+    flex: 0 0 0%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: aliceblue;
+    color:rgb(66, 66, 66);
+    width: 30px;
+    /* height: 30px; */
+    border:rgb(155, 141, 141) 2px solid;
+}
+
+.add-project-icon:hover {
+    cursor: pointer;
+    background-color: rgb(217, 237, 255);
+}
+
 
 .projects-list {
     padding: 10px;
@@ -396,4 +420,48 @@ label[for='title'] {
 
 .project-edit-cancel-button-modal:hover, .submit-button-edit-project-modal:hover {
     cursor: pointer;
+}
+
+/* create new project modal styling  */
+
+.create-new-project-button-wrapper {
+    display: flex;
+    justify-content: end;
+    margin-top: 5px;
+}
+
+.create-new-project-name-button {
+    background-color: aliceblue;
+    color:rgb(66, 66, 66);
+    padding: 3px 5px;
+    border:rgb(66, 66, 66) 2px solid;
+}
+
+.create-new-project-name-button:hover {
+    cursor: pointer;
+}
+
+.modal-window label[for="new_project_name"] {
+    margin-top: 4px;
+}
+
+.modal-window #new_project_name {
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 5px;
+    padding: 5px;
+
+    
+}
+
+.modal-window #new_project_name:invalid {
+    border-color: red;
+}
+
+.modal-window #new_project_name:valid {
+    border-color: rgb(0, 185, 0);
+}
+
+.projects-list > div {
+    margin-top: 7px;
 }
