@@ -116,9 +116,12 @@ const dommanager = (function() {
             textInput.setAttribute('name','new_project_name');
             textInput.setAttribute('type','text')
             let originalList = psmanager.getProjectList();
-            let patternString = originalList.join('|');
-            let regexPattern = new RegExp(`\\b(?!(${patternString})\\b)\\w*`);
-            textInput.setAttribute('pattern',regexPattern.source);
+            if (originalList.length > 0) {
+                let patternString = originalList.join('|');
+                let regexPattern = new RegExp(`\\b(?!(${patternString})\\b)\\w*`);
+                textInput.setAttribute('pattern',regexPattern.source);
+                
+            }
             textInput.setAttribute('required','');
 
             //create the subtmit button
@@ -230,11 +233,18 @@ const dommanager = (function() {
             projectButton.setAttribute('id',el);
             projectButton.innerHTML = el;
             projectButton.onclick = function() {
-                let projectButtonsList = document.querySelectorAll('.project-button')
-                projectButtonsList.forEach((ll) => {ll.classList.remove('highlighted-project')});
-                projectButton.classList.add('highlighted-project');
-                status.setProjectName(el);
-                renderTable();
+                let projectButtonsList = document.querySelectorAll('.project-button');
+                if (projectButton.classList.contains('highlighted-project')) {
+                    projectButton.classList.remove('highlighted-project');
+                    status.setProjectName('');
+                    renderTable();
+                } else {
+                    projectButtonsList.forEach((ll) => {ll.classList.remove('highlighted-project')});
+                    projectButton.classList.add('highlighted-project');
+                    status.setProjectName(el);
+                    renderTable();
+                }
+                
             }
 
             // Create the edit button
@@ -459,6 +469,9 @@ const dommanager = (function() {
         let editButtonDiv = document.createElement('div');
         editButtonDiv.classList.add('edit-button');
         editButtonDiv.innerHTML = '<ion-icon name="pencil-outline"></ion-icon>';
+        editButtonDiv.onclick = function() {
+            createEditTaskModal(uuid);
+        }
         let deleteButtonDiv = document.createElement('div');
         deleteButtonDiv.classList.add('delete-button');
         deleteButtonDiv.innerHTML = '<ion-icon name="trash-outline"></ion-icon>';
@@ -505,6 +518,137 @@ const dommanager = (function() {
         }
     }
 
+    function createEditTaskModal(uuidNumber) {
+        createModal();
+        let modalWindow = document.querySelector('.modal-window');
+        ptasks = psmanager.getProjectTasks();
+
+        // Create the form and title input
+        let formEl = document.createElement('form');
+        // let titleEditLabel = document.createElement('label');
+        // titleEditInput.setAttribute('for','title');
+        // titleEditLabel.innerHTML = 'Title';
+        // let titleEditInput = document.createElement('input');
+        // titleEditInput.setAttribute('id','title');
+        // titleEditInput.setAttribute('name','title');
+        // titleEditInput.setAttribute('value',ptasks[uuidNumber]['title']);
+        // formEl.appendChild(titleEditLabel);
+        // formEl.appendChild(titleEditInput);
+
+        // create the project input
+        // TODO for tomorrow: copy paste the addTaskButton function and change the values of the input forms
+        // and change the buttons and their onclick attributes.
+        // then make the info button function and the done function.
+
+        formEl.classList.add('add-task-form')
+        // title of task
+        let titleLabel = document.createElement('label');
+        titleLabel.setAttribute('for','title');
+        titleLabel.innerHTML = 'Title';
+        let titleForm = document.createElement('input');
+        titleForm.setAttribute('value',ptasks[uuidNumber]['title']);
+        titleForm.setAttribute('id','title');
+        titleForm.setAttribute('type','text');
+        titleForm.setAttribute('name','title');
+        titleForm.setAttribute('required','');
+        formEl.appendChild(titleLabel);
+        formEl.appendChild(titleForm);
+
+        // task project
+        let pl = psmanager.getProjectList();
+        console.log(pl)
+        let projectListLabel = document.createElement('label');
+        projectListLabel.setAttribute('for','projectName');
+        projectListLabel.innerHTML = 'Project Name';
+        let projectListForm = document.createElement('select');
+        projectListForm.setAttribute('id','projectName');
+        projectListForm.setAttribute('name','projectName');
+        for (const x of pl) {
+            projectListForm.innerHTML += `<option value="${x}">${x}</option>`
+
+        }
+        let optionFormList = document.querySelectorAll('.modal-window option');
+        for (let x of optionFormList) {
+            if (x.getAttribute('value') == ptasks[uuidNumber]['project']) {
+                x.setAttribute('selected','');
+            }
+        }
+        formEl.appendChild(projectListLabel);
+        formEl.appendChild(projectListForm);
+
+        // due date el
+        let dueDateLabel = document.createElement('label');
+        dueDateLabel.setAttribute('for','due_date');
+        dueDateLabel.innerHTML = 'Due Date';
+        let dueDateForm = document.createElement('input');
+        dueDateForm.setAttribute('type','date');
+        dueDateForm.setAttribute('id','due_date');
+        dueDateForm.setAttribute('name','due_date');
+        dueDateForm.setAttribute('required','');
+        dueDateForm.setAttribute('value',(ptasks[uuidNumber]['due_date']).toISOString().split('T')[0]);
+        formEl.appendChild(dueDateLabel);
+        formEl.appendChild(dueDateForm);
+        
+
+        // priority options
+        let prioLabel = document.createElement('label');
+        prioLabel.setAttribute('for','priority');
+        prioLabel.innerHTML = 'Priority';
+        let prioForm = document.createElement('select');
+        prioForm.setAttribute('id','priority');
+        prioForm.setAttribute('name','priority');
+        let lowPrio = document.createElement('option');
+        lowPrio.setAttribute('value',ptasks[uuidNumber]['priority']);
+        lowPrio.innerHTML = "Low";
+        let highPrio = document.createElement('option');
+        highPrio.setAttribute('value','High');
+        highPrio.innerHTML = "High";
+        prioForm.appendChild(lowPrio);
+        prioForm.appendChild(highPrio);
+        formEl.appendChild(prioLabel);
+        formEl.appendChild(prioForm);
+
+        // desc
+        let descrLabel = document.createElement('label');
+        descrLabel.setAttribute('for','description');
+        descrLabel.innerHTML = 'Description';
+        let descForm = document.createElement('textarea');
+        descForm.setAttribute('id','description');
+        descForm.setAttribute('name','description');
+        descForm.setAttribute('rows','5');
+        descForm.innerHTML = ptasks[uuidNumber]['description'];
+        formEl.appendChild(descrLabel);
+        formEl.appendChild(descForm);
+
+        // submit button
+        let submitBtn = document.createElement('button');
+        submitBtn.setAttribute('type','submit');
+        submitBtn.innerHTML = 'Submit Edit';
+        formEl.appendChild(submitBtn);
+
+
+
+        modalWindow.appendChild(formEl);
+        formEl.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const data = Object.fromEntries(new FormData(e.target).entries());
+            // console.log(data)
+            let body = document.querySelector('body');
+            // console.log(data.title,e['projectName'],e['description'],e['priority'],new Date(e['due_date']))
+
+            // psmanager.addTodo(data['title'],data['projectName'],data['description'],data['priority'],new Date(data['due_date']),false)
+            psmanager.editTodoAttribute(uuidNumber,'title',data['title']);
+            psmanager.editTodoAttribute(uuidNumber,'due_date',data['due_date']);
+            psmanager.editTodoAttribute(uuidNumber,'project',data['project']);
+            psmanager.editTodoAttribute(uuidNumber,'description',data['description']);
+            psmanager.editTodoAttribute(uuidNumber,'priority',data['priority']);
+
+
+            body.removeChild(document.querySelector('.modal-bg'))
+            renderTable();
+          });
+
+    }
     return {initPage}
 })();
 
