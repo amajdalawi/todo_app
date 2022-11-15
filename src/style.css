@@ -65,6 +65,10 @@ body {
     border: 3px rgb(0, 81, 255) solid;
 }
 
+.done.highlighted {
+    background-color: rgb(0, 81, 255);
+    color: white;
+}
 .overdue:hover {
     color: red;
     border: 3px red solid;
@@ -472,3 +476,18 @@ label[for='title'] {
 .modal-window > form > button {
     cursor: pointer;
 }
+
+
+.task-row .check-button.doneC {
+    background-color: lightgreen !important;
+    color:rgb(0, 0, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+}
+
+.task-row .check-button.doneC:hover {
+    cursor: pointer !important;
+}
+

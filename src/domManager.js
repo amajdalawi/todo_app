@@ -195,6 +195,18 @@ const dommanager = (function() {
             status.setFinishedStatus(false);
             renderTable();
         }
+        let doneButton = document.querySelector('.done');
+        doneButton.onclick = function() {
+            let allButtons = document.querySelectorAll('.time-sort > div');
+            allButtons.forEach((el) => {el.classList.remove('highlighted')});
+            doneButton.classList.add('highlighted');
+            // status.setPriority('');
+            status.setdate('');
+            let projectName = document.querySelector('.clicked-project-name') ? document.querySelector('.clicked-project-name').innerHTML : '';
+            // status.setProjectName('');
+            status.setFinishedStatus(true);
+            renderTable();
+        }
     };
 
     function initProjects() {
@@ -429,14 +441,33 @@ const dommanager = (function() {
         // create the row div itself
         let rowDiv = document.createElement('div');
         rowDiv.classList.add('task-row');
+        let project_tasks = psmanager.getProjectTasks();
         
         // create the check sign div
         let checkDiv = document.createElement('div');
         checkDiv.classList.add('checked-button-div');
         let checkCircle = document.createElement('div');
         checkCircle.classList.add('check-button');
+        if (project_tasks[uuid]['status'] === true) {
+            checkCircle.classList.add('doneC');
+            checkCircle.innerHTML = '<ion-icon name="checkmark-outline"></ion-icon>';
+        }
         checkCircle.onclick = function() {
             // to do tomorrow
+            console.log('check')
+
+            if (project_tasks[uuid]['status'] === true) {
+                // checkCircle.classList.add('doneC');
+                // checkCircle.innerHTML = '<ion-false name="checkmark-outline"></ion-icon>';
+                psmanager.editTodoAttribute(uuid,'status',false)
+                renderTable();
+            } else {
+                // checkCircle.classList.remove('doneC');
+                // checkCircle.innerHTML = '';
+                psmanager.editTodoAttribute(uuid,'status',true)
+                renderTable();
+            }
+            
         }
         checkDiv.appendChild(checkCircle);
         rowDiv.appendChild(checkDiv);
@@ -673,8 +704,6 @@ const dommanager = (function() {
               });
         }
         // submit button
-        
-
     }
     return {initPage}
 })();

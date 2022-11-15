@@ -30,7 +30,9 @@ const status = (function() {
             shown_array = shown_array.filter((el) => {return el['priority'] == 'High'})
         }
         if (finished_status === true) {
-            shown_array = shown_array.filter((el) => {return el['status'] == true})
+            shown_array = shown_array.filter((el) => {return el['status'] === true})
+        } else {
+            shown_array = shown_array.filter((el) => {return el['status'] === false})
         }
         let today = new Date(new Date().toJSON().slice(0,10));
         // console.log(today)
