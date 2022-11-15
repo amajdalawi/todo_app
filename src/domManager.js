@@ -482,6 +482,9 @@ const dommanager = (function() {
         let infoButtonDiv = document.createElement('div');
         infoButtonDiv.classList.add('show-info');
         infoButtonDiv.innerHTML = '<ion-icon name="information-circle-outline"></ion-icon>';
+        infoButtonDiv.onclick = function() {
+            createEditTaskModal(uuid,true)
+        }
         buttonsFlex.appendChild(editButtonDiv);
         buttonsFlex.appendChild(deleteButtonDiv);
         buttonsFlex.appendChild(infoButtonDiv);
@@ -518,7 +521,7 @@ const dommanager = (function() {
         }
     }
 
-    function createEditTaskModal(uuidNumber) {
+    function createEditTaskModal(uuidNumber, disabled=false) {
         createModal();
         let modalWindow = document.querySelector('.modal-window');
         let ptasks = psmanager.getProjectTasks();
@@ -551,6 +554,7 @@ const dommanager = (function() {
         titleForm.setAttribute('type','text');
         titleForm.setAttribute('name','title');
         titleForm.setAttribute('required','');
+        if (disabled) {titleForm.setAttribute('disabled','')};
         formEl.appendChild(titleLabel);
         formEl.appendChild(titleForm);
 
@@ -561,6 +565,7 @@ const dommanager = (function() {
         projectListLabel.setAttribute('for','projectName');
         projectListLabel.innerHTML = 'Project Name';
         let projectListForm = document.createElement('select');
+        if (disabled) {projectListForm.setAttribute('disabled','')};
         projectListForm.setAttribute('id','projectName');
         projectListForm.setAttribute('name','projectName');
         for (const x of pl) {
@@ -581,6 +586,7 @@ const dommanager = (function() {
         dueDateLabel.setAttribute('for','due_date');
         dueDateLabel.innerHTML = 'Due Date';
         let dueDateForm = document.createElement('input');
+        if (disabled) {dueDateForm.setAttribute('disabled','')};
         dueDateForm.setAttribute('type','date');
         dueDateForm.setAttribute('id','due_date');
         dueDateForm.setAttribute('name','due_date');
@@ -596,6 +602,7 @@ const dommanager = (function() {
         prioLabel.setAttribute('for','priority');
         prioLabel.innerHTML = 'Priority';
         let prioForm = document.createElement('select');
+        if (disabled) {prioForm.setAttribute('disabled','')};
         prioForm.setAttribute('id','priority');
         prioForm.setAttribute('name','priority');
         let lowPrio = document.createElement('option');
@@ -614,6 +621,7 @@ const dommanager = (function() {
         descrLabel.setAttribute('for','description');
         descrLabel.innerHTML = 'Description';
         let descForm = document.createElement('textarea');
+        if (disabled) {descForm.setAttribute('disabled','')};
         descForm.setAttribute('id','description');
         descForm.setAttribute('name','description');
         descForm.setAttribute('rows','5');
@@ -621,33 +629,51 @@ const dommanager = (function() {
         formEl.appendChild(descrLabel);
         formEl.appendChild(descForm);
 
+
+        if (disabled) {
+            let enableEdit = document.createElement('button');
+            enableEdit.setAttribute('type','button');
+            enableEdit.innerHTML = 'Edit Task';
+            enableEdit.onclick = function() {
+                let body = document.querySelector('body');
+                let modalbg = document.querySelector('.modal-bg');
+                body.removeChild(modalbg);
+                createEditTaskModal(uuidNumber,false)
+            }
+            formEl.appendChild(enableEdit);
+            modalWindow.appendChild(formEl);
+
+
+        } else {
+            let submitBtn = document.createElement('button');
+            submitBtn.setAttribute('type','submit');
+            submitBtn.innerHTML = 'Submit Edit';
+            formEl.appendChild(submitBtn);
+    
+    
+    
+            modalWindow.appendChild(formEl);
+            formEl.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const data = Object.fromEntries(new FormData(e.target).entries());
+                // console.log(data)
+                let body = document.querySelector('body');
+                // console.log(data.title,e['projectName'],e['description'],e['priority'],new Date(e['due_date']))
+    
+                // psmanager.addTodo(data['title'],data['projectName'],data['description'],data['priority'],new Date(data['due_date']),false)
+                psmanager.editTodoAttribute(uuidNumber,'title',data['title']);
+                psmanager.editTodoAttribute(uuidNumber,'due_date',data['due_date']);
+                psmanager.editTodoAttribute(uuidNumber,'project',data['projectName']);
+                psmanager.editTodoAttribute(uuidNumber,'description',data['description']);
+                psmanager.editTodoAttribute(uuidNumber,'priority',data['priority']);
+    
+    
+                body.removeChild(document.querySelector('.modal-bg'))
+                renderTable();
+              });
+        }
         // submit button
-        let submitBtn = document.createElement('button');
-        submitBtn.setAttribute('type','submit');
-        submitBtn.innerHTML = 'Submit Edit';
-        formEl.appendChild(submitBtn);
-
-
-
-        modalWindow.appendChild(formEl);
-        formEl.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const data = Object.fromEntries(new FormData(e.target).entries());
-            // console.log(data)
-            let body = document.querySelector('body');
-            // console.log(data.title,e['projectName'],e['description'],e['priority'],new Date(e['due_date']))
-
-            // psmanager.addTodo(data['title'],data['projectName'],data['description'],data['priority'],new Date(data['due_date']),false)
-            psmanager.editTodoAttribute(uuidNumber,'title',data['title']);
-            psmanager.editTodoAttribute(uuidNumber,'due_date',data['due_date']);
-            psmanager.editTodoAttribute(uuidNumber,'project',data['projectName']);
-            psmanager.editTodoAttribute(uuidNumber,'description',data['description']);
-            psmanager.editTodoAttribute(uuidNumber,'priority',data['priority']);
-
-
-            body.removeChild(document.querySelector('.modal-bg'))
-            renderTable();
-          });
+        
 
     }
     return {initPage}

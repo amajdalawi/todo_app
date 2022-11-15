@@ -465,3 +465,10 @@ label[for='title'] {
 .projects-list > div {
     margin-top: 7px;
 }
+
+
+/* modal button  */
+
+.modal-window > form > button {
+    cursor: pointer;
+}
