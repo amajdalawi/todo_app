@@ -521,7 +521,7 @@ const dommanager = (function() {
     function createEditTaskModal(uuidNumber) {
         createModal();
         let modalWindow = document.querySelector('.modal-window');
-        ptasks = psmanager.getProjectTasks();
+        let ptasks = psmanager.getProjectTasks();
 
         // Create the form and title input
         let formEl = document.createElement('form');
@@ -585,7 +585,8 @@ const dommanager = (function() {
         dueDateForm.setAttribute('id','due_date');
         dueDateForm.setAttribute('name','due_date');
         dueDateForm.setAttribute('required','');
-        dueDateForm.setAttribute('value',(ptasks[uuidNumber]['due_date']).toISOString().split('T')[0]);
+        console.log(ptasks[uuidNumber]['due_date'])
+        dueDateForm.setAttribute('value',new Date(ptasks[uuidNumber]['due_date']).toISOString().split('T')[0]);
         formEl.appendChild(dueDateLabel);
         formEl.appendChild(dueDateForm);
         
@@ -639,7 +640,7 @@ const dommanager = (function() {
             // psmanager.addTodo(data['title'],data['projectName'],data['description'],data['priority'],new Date(data['due_date']),false)
             psmanager.editTodoAttribute(uuidNumber,'title',data['title']);
             psmanager.editTodoAttribute(uuidNumber,'due_date',data['due_date']);
-            psmanager.editTodoAttribute(uuidNumber,'project',data['project']);
+            psmanager.editTodoAttribute(uuidNumber,'project',data['projectName']);
             psmanager.editTodoAttribute(uuidNumber,'description',data['description']);
             psmanager.editTodoAttribute(uuidNumber,'priority',data['priority']);
 
